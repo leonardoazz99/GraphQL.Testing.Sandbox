@@ -1,0 +1,4 @@
+{
+  "name": "ProductionControl",
+  "transports": { "http": { "url": "http://localhost:5001/graphql" } }
+}

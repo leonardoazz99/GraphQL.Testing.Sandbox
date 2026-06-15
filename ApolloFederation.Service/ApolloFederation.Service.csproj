@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HotChocolate.Fusion.AspNetCore" />
+  </ItemGroup>
+	<ItemGroup>
+		<None Update="gateway.far" CopyToOutputDirectory="PreserveNewest" Condition="Exists('gateway.far')" />
+	</ItemGroup>
+</Project>

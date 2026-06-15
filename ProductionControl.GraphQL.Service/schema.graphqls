@@ -1,0 +1,65 @@
+schema {
+  query: Query
+}
+
+type Query {
+  partByPartNumber(partNumber: String!): Part @lookup @internal
+  products: [Product!]!
+  productById(id: Int!): Product @lookup
+}
+
+type Part @key(fields: "partNumber") {
+  products: [Product!]!
+  partNumber: String!
+}
+
+type Product @key(fields: "id") {
+  id: Int!
+  name: String!
+  category: String!
+  partNumber: String! @shareable
+  price: Decimal!
+}
+
+enum ScalarSerializationType {
+  STRING
+  BOOLEAN
+  INT
+  FLOAT
+  OBJECT
+  LIST
+}
+
+"The `Decimal` scalar type represents a decimal floating-point number with high precision."
+scalar Decimal
+  @serializeAs(type: FLOAT)
+  @specifiedBy(url: "https://scalars.graphql.org/chillicream/decimal.html")
+
+scalar FieldSelectionSet
+
+directive @internal on OBJECT | FIELD_DEFINITION
+
+"""
+The @key directive is used to designate an entity's unique key,
+which identifies how to uniquely reference an instance of
+an entity across different source schemas.
+"""
+directive @key("The field selection set syntax." fields: FieldSelectionSet!) repeatable on
+  | OBJECT
+  | INTERFACE
+
+"""
+The @lookup directive is used within a source schema to specify output fields
+that can be used by the distributed GraphQL executor to resolve an entity by
+a stable key.
+"""
+directive @lookup on FIELD_DEFINITION
+
+directive @serializeAs(
+  "The primitive type a scalar is serialized to."
+  type: [ScalarSerializationType!]!
+  "The ECMA-262 regex pattern that the serialized scalar value conforms to."
+  pattern: String
+) on SCALAR
+
+directive @shareable repeatable on OBJECT | FIELD_DEFINITION

@@ -1,0 +1,43 @@
+schema {
+  query: Query
+}
+
+type Query {
+  parts: [Part!]!
+  partByPartNumber(partNumber: String!): Part @lookup
+  productByPartNumber(partNumber: String!): Product @lookup @internal
+}
+
+type Part @key(fields: "partNumber") {
+  partNumber: String!
+  name: String!
+  material: String!
+  weightGrams: Float!
+  standard: String!
+  manufacturer: String!
+}
+
+type Product @key(fields: "partNumber") {
+  part: Part
+  partNumber: String!
+}
+
+scalar FieldSelectionSet
+
+directive @internal on OBJECT | FIELD_DEFINITION
+
+"""
+The @key directive is used to designate an entity's unique key,
+which identifies how to uniquely reference an instance of
+an entity across different source schemas.
+"""
+directive @key("The field selection set syntax." fields: FieldSelectionSet!) repeatable on
+  | OBJECT
+  | INTERFACE
+
+"""
+The @lookup directive is used within a source schema to specify output fields
+that can be used by the distributed GraphQL executor to resolve an entity by
+a stable key.
+"""
+directive @lookup on FIELD_DEFINITION

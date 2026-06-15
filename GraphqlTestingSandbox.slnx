@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="ApolloFederation.Service/ApolloFederation.Service.csproj" Id="00bcb0fb-e98b-4918-821c-0a1d4d59ed13" />
+  <Project Path="MasterData.GraphQL.Service/MasterData.GraphQL.Service.csproj" Id="401660af-81d1-4477-b433-857127a4ff4b" />
+  <Project Path="ProductionControl.GraphQL.Service/ProductionControl.GraphQL.Service.csproj" Id="cdd02b4e-8501-48c6-a42f-3c3f857e546b" />
+  <Project Path="Gateway.Yarp/Gateway.Yarp.csproj" Id="f3a1b2c4-d5e6-7890-abcd-ef1234567890" />
+</Solution>
