@@ -3,12 +3,14 @@ schema {
 }
 
 type Query {
-  parts: [Part!]!
-  partByPartNumber(partNumber: String!): Part @lookup
+  partGroups: [PartGroupDto!]! @cost(weight: "10")
+  partGroupByCode(code: String!): PartGroupDto @lookup @cost(weight: "10")
+  parts: [PartDto!]! @cost(weight: "10")
+  partByPartNumber(partNumber: String!): PartDto @lookup @cost(weight: "10")
   productByPartNumber(partNumber: String!): Product @lookup @internal
 }
 
-type Part @key(fields: "partNumber") {
+type PartDto @key(fields: "partNumber") {
   partNumber: String!
   name: String!
   material: String!
@@ -17,12 +19,30 @@ type Part @key(fields: "partNumber") {
   manufacturer: String!
 }
 
+type PartGroupDto @key(fields: "code") {
+  code: String!
+  name: String!
+  description: String!
+}
+
 type Product @key(fields: "partNumber") {
-  part: Part
+  part: PartDto @cost(weight: "10")
   partNumber: String!
 }
 
 scalar FieldSelectionSet
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost(
+  "The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc."
+  weight: String!
+) on
+  | SCALAR
+  | OBJECT
+  | FIELD_DEFINITION
+  | ARGUMENT_DEFINITION
+  | ENUM
+  | INPUT_FIELD_DEFINITION
 
 directive @internal on OBJECT | FIELD_DEFINITION
 
