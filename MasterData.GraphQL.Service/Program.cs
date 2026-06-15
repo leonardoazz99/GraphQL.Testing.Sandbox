@@ -2,7 +2,7 @@ using MasterData.GraphQL.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IPartRepository, PartRepository>();
+builder.Services.AddScoped<IPartRepository, PartMockRepository>();
 
 builder
     .AddGraphQL("MasterData")
